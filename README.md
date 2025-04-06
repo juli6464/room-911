@@ -12,4 +12,5 @@
  - Iniciar sesión con un admin existente
  - En el dashboard se fuede filtrar por id, nombre, apellido, departamento y  usar todos los filtros.
  - Se puede crear un empleado haciendo clic en nuevo empleado
+ - Se puede eliminar el empleado desde el dashboard
  
