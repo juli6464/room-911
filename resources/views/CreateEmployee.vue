@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-lg mx-auto bg-white shadow p-6 rounded mt-8">
-      <h2 class="text-xl font-semibold mb-4">Create Employee</h2>
-      <form @submit.prevent="createEmployee">
+      <h2 class="text-xl font-semibold mb-4">{{ isEditMode ? 'Edit Employee' : 'Create Employee' }}</h2>
+      <form @submit.prevent="saveEmployee">
         <div class="mb-4">
           <label class="block text-gray-700">Internal ID</label>
           <input v-model="form.internal_id" type="text" class="w-full border border-gray-300 rounded px-3 py-2" required />
@@ -19,13 +19,15 @@
           <input v-model="form.department_id" type="text" class="w-full border border-gray-300 rounded px-3 py-2" required />
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 mb-1">Access to room 911</label>
-            <select v-model="form.access_granted" class="w-full border border-gray-300 rounded px-3 py-2">
-                <option :value="1">Yes</option>
-                <option :value="0">No</option>
-            </select>
+          <label class="block text-gray-700 mb-1">Access to room 911</label>
+          <select v-model="form.access_granted" class="w-full border border-gray-300 rounded px-3 py-2">
+            <option :value="1">Yes</option>
+            <option :value="0">No</option>
+          </select>
         </div>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
       </form>
     </div>
   </template>
@@ -43,19 +45,40 @@
           last_name: '',
           department_id: '',
           access_granted: 1
-        }
+        },
+        isEditMode: false
       };
     },
     methods: {
-      async createEmployee() {
+      async loadEmployee(id) {
         try {
-            console.log(this.form)
-          await axios.post('http://localhost:8000/api/employees', this.form);
-          this.$router.push('/employees');
+          const response = await axios.get(`http://localhost:8000/api/employees/${id}`);
+          this.form = response.data;
         } catch (error) {
-        //   alert('Error al crear empleado');
-          console.error(error);
+          console.error('Error al cargar empleado:', error);
         }
+      },
+      async saveEmployee() {
+        try {
+            console.log("Datos a enviar:", this.form); // 👈 Agrega esto
+
+            if (this.isEditMode) {
+            await axios.put(`http://localhost:8000/api/employees/${this.$route.params.id}`, this.form);
+            } else {
+            await axios.post('http://localhost:8000/api/employees', this.form);
+            }
+            this.$router.push('/employees');
+            } catch (error) {
+                console.error('Error al guardar empleado:', error.response?.data || error);
+            }
+        }
+
+    },
+    created() {
+      const id = this.$route.params.id;
+      if (id) {
+        this.isEditMode = true;
+        this.loadEmployee(id);
       }
     }
   };

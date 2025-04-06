@@ -171,23 +171,21 @@
       }
     },
     methods: {
-      editEmployee(emp) {
-        // lógica para editar
-        this.$router.push(`/employees/${emp.id}/edit`);
+        editEmployee(employee) {
+         this.$router.push(`/employees/create/${employee.id}`);
       },
       async deleteEmployee(id) {
-        if (confirm('¿Estás seguro de eliminar este empleado?')) {
+        if (confirm('¿Are you sure?')) {
         try {
             await axios.delete(`http://localhost:8000/api/employees/${id}`);
-            // Quita el empleado de la lista sin recargar
             this.employees = this.employees.filter(emp => emp.id !== id);
-            alert('Empleado eliminado');
+            alert('Employee deleted successfully');
             } catch (error) {
-                console.error('Error al eliminar:', error);
-                alert('Error al eliminar el empleado');
+                console.error('Error to delete:', error);
+                alert('Error to delete employee');
             }
         }
-     }
+      },
     }
   };
   </script>

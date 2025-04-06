@@ -11,6 +11,7 @@ const routes = [
     { path: '/dashboard', component: Dashboard },
     { path: '/employees', component: Employees },
     { path: '/employees/create', component: CreateEmployee },
+    { path: '/employees/create/:id?', component: CreateEmployee},
     { path: '/access-logs', component: AccessLogs },
     { path: '/simulate-access', component: SimulateAccess },
 ];

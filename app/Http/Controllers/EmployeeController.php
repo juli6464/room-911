@@ -32,6 +32,26 @@ class EmployeeController extends Controller {
 
         return response()->json($employee, 201);
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'department_id' => 'required|integer',
+            'internal_id' => 'required|string',
+            'access_granted' => 'required|boolean',
+        ]);
+
+        $employee = Employee::find($id);
+
+        if (!$employee) {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
+
+        $employee->update($request->all());
+
+        return response()->json($employee, 200);
+    }
     public function importCsv(Request $request) {
         //improtar csv
     }
@@ -40,11 +60,11 @@ class EmployeeController extends Controller {
         $employee = Employee::find($id);
 
         if (!$employee) {
-            return response()->json(['message' => 'Empleado no encontrado'], 404);
+            return response()->json(['message' => 'Employee not found'], 404);
         }
 
         $employee->delete();
 
-        return response()->json(['message' => 'Empleado eliminado'], 200);
+        return response()->json(['message' => 'Employee deleted'], 200);
     }
 }

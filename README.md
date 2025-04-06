@@ -1,4 +1,4 @@
-# Despliegue proyecto Laravel + Vue
+# Despliegue proyecto Laravel + Vue + Tailwind + Mysql
  - Copar archivo .env.example y  renombrarlo a .env y agregar el usuario, nombre de base de datos y contraseña
  - npm install
  - composer install
