@@ -35,4 +35,16 @@ class EmployeeController extends Controller {
     public function importCsv(Request $request) {
         //improtar csv
     }
+    public function destroy($id)
+    {
+        $employee = Employee::find($id);
+
+        if (!$employee) {
+            return response()->json(['message' => 'Empleado no encontrado'], 404);
+        }
+
+        $employee->delete();
+
+        return response()->json(['message' => 'Empleado eliminado'], 200);
+    }
 }

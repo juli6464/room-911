@@ -93,13 +93,13 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                   <button
-                    class="text-blue-600 hover:text-blue-800 mr-2"
+                    class="bg-gray-500 text-white hover:bg-gray-800 p-2 m-2 rounded-md"
                     @click="editEmployee(employee)"
                   >
                     Update
                   </button>
                   <button
-                    class="text-red-600 hover:text-red-800"
+                    class="bg-red-500 text-white hover:bg-red-800 p-2 m-2 rounded-md"
                     @click="deleteEmployee(employee.id)"
                   >
                     Delete
@@ -111,7 +111,7 @@
                   class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
                   colspan="6"
                 >
-                  No hay resultados
+                  No Results Found
                 </td>
               </tr>
             </tbody>
@@ -175,16 +175,19 @@
         // lógica para editar
         this.$router.push(`/employees/${emp.id}/edit`);
       },
-      deleteEmployee(id) {
-        // lógica para eliminar
-        if (confirm('¿Seguro que deseas eliminar este empleado?')) {
-          axios.delete(`/employees/${id}`)
-            .then(() => {
-              this.employees = this.employees.filter(e => e.id !== id);
-            })
-            .catch(err => console.error(err));
+      async deleteEmployee(id) {
+        if (confirm('¿Estás seguro de eliminar este empleado?')) {
+        try {
+            await axios.delete(`http://localhost:8000/api/employees/${id}`);
+            // Quita el empleado de la lista sin recargar
+            this.employees = this.employees.filter(emp => emp.id !== id);
+            alert('Empleado eliminado');
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+                alert('Error al eliminar el empleado');
+            }
         }
-      }
+     }
     }
   };
   </script>
