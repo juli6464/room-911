@@ -23,7 +23,9 @@ class EmployeeController extends Controller {
         $request->validate([
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'department_id' => 'required|integer'
+            'department_id' => 'required|integer',
+            'internal_id' => 'required|string',
+            'access_granted' => 'required|boolean',
         ]);
 
         $employee = Employee::create($request->all());

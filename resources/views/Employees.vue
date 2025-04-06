@@ -1,31 +1,35 @@
 <template>
-    <router-link to="/employees/create" class="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Crear nuevo empleado</router-link>
+
     <div class="p-6 bg-gray-100 min-h-screen">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Administrative Menu</h2>
-
+        <h5 class="text-2xl font-semibold text-gray-800 mb-6">Administrative Menu</h5>
+        <div class="flex justify-end mb-4 mr-4">
+            <router-link to="/employees/create" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                New Employee
+            </router-link>
+        </div>
         <!-- Card contenedor -->
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
           <!-- Filtros -->
           <div class="p-4 border-b border-gray-200 grid grid-cols-1 sm:grid-cols-5 gap-4">
             <input
               v-model="filters.internal_id"
-              placeholder="Filtrar ID"
+              placeholder="ID"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <input
               v-model="filters.name"
-              placeholder="Filtrar Nombre"
+              placeholder="Name"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <input
               v-model="filters.last_name"
-              placeholder="Filtrar Apellido"
+              placeholder="Last Name"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <input
               v-model="filters.department_id"
-              placeholder="Filtrar Departamento"
+              placeholder="Department"
               class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <select

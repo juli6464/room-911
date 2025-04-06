@@ -6,4 +6,10 @@
  - Ejecutar php artisan migrate --seed
  - Para levantar el backend php artisan serve
  - Para levantar el frontend npm run dev
+ - Ingresar a http://127.0.0.1:8000/ para ver el aplicativo
+
+# Qué se puede probar?
+ - Iniciar sesión con un admin existente
+ - En el dashboard se fuede filtrar por id, nombre, apellido, departamento y  usar todos los filtros.
+ - Se puede crear un empleado haciendo clic en nuevo empleado
  
