@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\EmployeesImport;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\AccessLog;
 use App\Models\AdminUser;
 use App\Models\Department;
 use Barryvdh\DomPDF\Facades\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller {
     public function index() {
@@ -52,9 +54,6 @@ class EmployeeController extends Controller {
 
         return response()->json($employee, 200);
     }
-    public function importCsv(Request $request) {
-        //improtar csv
-    }
     public function destroy($id)
     {
         $employee = Employee::find($id);
@@ -67,4 +66,15 @@ class EmployeeController extends Controller {
 
         return response()->json(['message' => 'Employee deleted'], 200);
     }
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,xlsx',
+        ]);
+
+        Excel::import(new EmployeesImport, $request->file('file'));
+
+        return response()->json(['message' => 'Import successful']);
+    }
+
 }
