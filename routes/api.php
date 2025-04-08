@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccessLogController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,4 @@ Route::post('/import-excel-employees', [EmployeeController::class, 'import']);
 Route::post('/employee-login', [EmployeeController::class, 'loginEmployee']);
 Route::get('/access-logs/employees/{employeeId}', [AccessLogController::class, 'showByEmployee']);
 Route::get('/employees/{id}/access-history', [EmployeeController::class, 'accessHistory']);
-
+Route::post('/admin-users', [AdminController::class, 'store']);

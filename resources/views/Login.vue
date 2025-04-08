@@ -52,6 +52,13 @@
             <span v-else>Login</span>
           </button>
         </form>
+        <p>If you want to create an Admin User</p>
+        <router-link
+          to="/admin-users/create"
+          class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition duration-200"
+        >
+          Create Admin User
+        </router-link>
       </div>
     </div>
   </template>
