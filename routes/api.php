@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/api/employees/{id}', [EmployeeController::class, 'show']);
+Route::get('/employees/{id}', [EmployeeController::class, 'show']);
 Route::post('/employees', [EmployeeController::class, 'store']);
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy']);
 Route::put('/employees/{id}', [EmployeeController::class, 'update']);

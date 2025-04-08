@@ -12,6 +12,7 @@
  - Iniciar sesión con un admin existente o empleado .
  - En el dashboard se fuede filtrar por id, nombre, apellido, departamento y  usar todos los filtros.
  - Se puede crear un empleado haciendo clic en nuevo empleado.
+ - Se puede editar el empleado haciendo click en update del que se desee mdificar.
  - Se puede eliminar el empleado desde el dashboard.
  - Se puede importar por CSV el listado de empleados (Para prueba importa employees.csv que está en el repositorio).
  - La imagen del diagrama E-R puedes buscarlo en el repositorio como Diagrama-entidad-relacion.PNG

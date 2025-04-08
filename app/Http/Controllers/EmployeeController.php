@@ -94,5 +94,17 @@ class EmployeeController extends Controller {
             'employee' => $employee,
         ]);
     }
+    public function show($id)
+    {
+        $employee = Employee::find($id);
+
+        if (!$employee) {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
+
+        return response()->json([
+            'employee' => $employee
+        ]);
+    }
 
 }

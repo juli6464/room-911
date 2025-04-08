@@ -53,7 +53,7 @@
       async loadEmployee(id) {
         try {
           const response = await axios.get(`http://localhost:8000/api/employees/${id}`);
-          this.form = response.data;
+          this.form = response.data.employee;
         } catch (error) {
           console.error('Error al cargar empleado:', error);
         }
