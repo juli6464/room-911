@@ -13,20 +13,23 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller {
-    // public function index() {
-    //     return response()->json(Employee::all());
-    // }
+
     public function index()
     {
-        $employees = Employee::withCount('accessLogs')->get(); // agrega "access_logs_count"
+        $employees = Employee::with(['accessLogs' => function ($query) {
+            $query->latest();
+        }])->get();
 
-        // Si quieres mantener el nombre 'access_attempts'
-        $employees->each(function ($emp) {
-            $emp->access_attempts = $emp->access_logs_count;
+        $employees = $employees->map(function ($employee) {
+            $attemptTime = optional($employee->accessLogs->first())->attempt_time;
+            $empArray = $employee->toArray(); // convierte a array
+            $empArray['attempt_time'] = $attemptTime;
+            return $empArray;
         });
 
         return response()->json($employees);
     }
+
     public function create() {
         return view('employees.create');
     }

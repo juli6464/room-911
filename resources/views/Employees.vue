@@ -56,6 +56,16 @@
                 placeholder="Department"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
+                <input
+                type="date"
+                v-model="filters.start_date"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                <input
+                type="date"
+                v-model="filters.end_date"
+                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
                 <select
                 v-model="filters.access_granted"
                 class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -165,7 +175,9 @@
             last_name: '',
             department_id: '',
             access_granted: '',
-            file: ''
+            file: '',
+            start_date: '',
+            end_date: ''
         }
         };
     },
@@ -189,7 +201,31 @@
             matchAccess = emp.access_granted === true;
             if (this.filters.access_granted === 'false')
             matchAccess = emp.access_granted === false;
-            return matchId && matchName && matchLast && matchDept && matchAccess;
+            const matchDate = () => {
+                if (!this.filters.start_date && !this.filters.end_date) return true;
+                if (!emp.attempt_time) return false;
+
+                const attemptDate = new Date(emp.attempt_time);
+
+                const startDate = this.filters.start_date ? new Date(this.filters.start_date) : null;
+                const endDate = this.filters.end_date ? new Date(this.filters.end_date) : null;
+
+                // Sumamos un día al endDate para incluir todo el día
+                if (endDate) {
+                    endDate.setDate(endDate.getDate() + 1);
+                }
+
+                if (startDate && endDate) {
+                    return attemptDate >= startDate && attemptDate < endDate; // usamos "<" en lugar de "<="
+                } else if (startDate) {
+                    return attemptDate >= startDate;
+                } else if (endDate) {
+                    return attemptDate < endDate;
+                }
+
+                return true;
+            };
+            return matchId && matchName && matchLast && matchDept && matchAccess && matchDate();
         });
         }
     },
