@@ -21,13 +21,15 @@ class AccessLogController extends Controller {
         $pdf = FacadePdf::loadView('access_logs.pdf', compact('employee', 'logs'));
         return $pdf->download('access_log.pdf');
     }
-    public function simulateAccess(Request $request) {
-        $employee = Employee::where('internal_id', $request->input('internal_id'))->first();
-        AccessLog::create([
-            'employee_id' => $employee->id ?? null,
-            'status' => $employee ? 'success' : 'failed',
-            'attempt_time' => now()
+    public function showByEmployee($employeeId)
+    {
+        $employee = Employee::with('accessLogs')->findOrFail($employeeId);
+
+        return response()->json([
+            'employee' => $employee->only(['id', 'name', 'last_name', 'internal_id']),
+            'access_attempts' => AccessLog::where('employee_id', $employee->id)->count(),
+            'logs' => $employee->accessLogs,
         ]);
-        return response()->json(['message' => $employee ? 'Access Granted' : 'Access Denied']);
     }
+
 }

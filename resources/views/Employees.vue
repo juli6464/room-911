@@ -83,6 +83,9 @@
                     Department
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Attempts
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Total Access
                     </th>
                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -107,6 +110,9 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                     {{ employee.department_id }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    {{ employee.access_attempts ?? 0 }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                     <span

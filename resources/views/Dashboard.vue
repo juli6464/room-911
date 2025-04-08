@@ -1,9 +1,6 @@
 <template>
     <div>
         <Employees />
-        <nav>
-            <router-link to="/access-logs"> Registros de Acceso</router-link>
-        </nav>
     </div>
 </template>
 

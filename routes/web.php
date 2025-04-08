@@ -25,9 +25,6 @@ Route::middleware(['auth'])->group(function () {
     // Carga masiva de empleados
     Route::post('/employees/upload', [EmployeeController::class, 'importCsv'])->name('employees.import');
 
-    // Registro de intentos de acceso
-    Route::get('/access-logs', [AccessLogController::class, 'index'])->name('access-logs.index');
-
     // Exportar historial de accesos a PDF
     Route::get('/access-logs/pdf/{id}', [AccessLogController::class, 'exportPdf'])->name('access-logs.pdf');
 

@@ -14,6 +14,8 @@
  - Se puede crear un empleado haciendo clic en nuevo empleado.
  - Se puede editar el empleado haciendo click en update del que se desee mdificar.
  - Se puede eliminar el empleado desde el dashboard.
+ - Cada intento de acceso se conserva en BD  la hora y el empleado que lo está haciendo; ya sea que tenga o no éxito,
+y/o que el empleado no esté registrado en BD.
  - Se puede importar por CSV el listado de empleados (Para prueba importa employees.csv que está en el repositorio).
  - La imagen del diagrama E-R puedes buscarlo en el repositorio como Diagrama-entidad-relacion.PNG
  

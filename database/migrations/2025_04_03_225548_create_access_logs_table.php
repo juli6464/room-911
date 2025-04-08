@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('access_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('status');
-            $table->timestamp('attempt_time');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->nullOnDelete();
+            $table->string('status'); // 'success' o 'failed'
+            $table->timestamp('attempt_time')->useCurrent();
             $table->timestamps();
         });
     }

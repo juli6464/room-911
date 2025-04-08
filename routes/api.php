@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,4 +25,5 @@ Route::delete('/employees/{id}', [EmployeeController::class, 'destroy']);
 Route::put('/employees/{id}', [EmployeeController::class, 'update']);
 Route::post('/import-excel-employees', [EmployeeController::class, 'import']);
 Route::post('/employee-login', [EmployeeController::class, 'loginEmployee']);
+Route::get('/access-logs/employees/{employeeId}', [AccessLogController::class, 'showByEmployee']);
 

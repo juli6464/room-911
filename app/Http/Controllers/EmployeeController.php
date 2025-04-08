@@ -9,13 +9,23 @@ use App\Models\AccessLog;
 use App\Models\AdminUser;
 use App\Models\Department;
 use Barryvdh\DomPDF\Facades\Pdf;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller {
-    public function index() {
-        // $employees = Employee::all();
-        // return view('employees.index', compact('employees'));
-        return response()->json(Employee::all());
+    // public function index() {
+    //     return response()->json(Employee::all());
+    // }
+    public function index()
+    {
+        $employees = Employee::withCount('accessLogs')->get(); // agrega "access_logs_count"
+
+        // Si quieres mantener el nombre 'access_attempts'
+        $employees->each(function ($emp) {
+            $emp->access_attempts = $emp->access_logs_count;
+        });
+
+        return response()->json($employees);
     }
     public function create() {
         return view('employees.create');
@@ -85,14 +95,22 @@ class EmployeeController extends Controller {
 
         $employee = Employee::where('internal_id', $request->internal_id)->first();
 
-        if (!$employee) {
+        // attempts
+        AccessLog::create([
+            'employee_id' => $employee ? $employee->id : null,
+            'status' => $employee ? 'success' : 'fail',
+            'attempt_time' => Carbon::now(),
+        ]);
+
+        if ($employee) {
+            return response()->json([
+                'message' => 'Login successful',
+                'employee' => $employee,
+            ]);
+        } else {
             return response()->json(['message' => 'Invalid internal ID'], 401);
         }
 
-        return response()->json([
-            'message' => 'Login successful',
-            'employee' => $employee,
-        ]);
     }
     public function show($id)
     {
