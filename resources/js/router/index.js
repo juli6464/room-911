@@ -5,6 +5,7 @@ import Employees from '../../views/Employees.vue';
 import AccessLogs from '../../views/AccessLogs.vue';
 import SimulateAccess from '../../views/SimulateAccess.vue';
 import CreateEmployee from '../../views/CreateEmployee.vue';
+import EmployeeLogin from '../../views/EmployeeLogin.vue';
 
 const routes = [
     { path: '/', component: Login },
@@ -12,6 +13,7 @@ const routes = [
     { path: '/employees', component: Employees },
     { path: '/employees/create', component: CreateEmployee },
     { path: '/employees/create/:id?', component: CreateEmployee},
+    { path: '/employees/login', component: EmployeeLogin },
     { path: '/access-logs', component: AccessLogs },
     { path: '/simulate-access', component: SimulateAccess },
 ];

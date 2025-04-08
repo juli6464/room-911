@@ -77,4 +77,22 @@ class EmployeeController extends Controller {
         return response()->json(['message' => 'Import successful']);
     }
 
+    public function loginEmployee(Request $request)
+    {
+        $request->validate([
+            'internal_id' => 'required|string',
+        ]);
+
+        $employee = Employee::where('internal_id', $request->internal_id)->first();
+
+        if (!$employee) {
+            return response()->json(['message' => 'Invalid internal ID'], 401);
+        }
+
+        return response()->json([
+            'message' => 'Login successful',
+            'employee' => $employee,
+        ]);
+    }
+
 }

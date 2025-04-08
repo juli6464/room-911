@@ -2,7 +2,11 @@
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
       <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">Login Room 911</h2>
-        <form @submit.prevent="login" class="space-y-4">
+        If you are Employee<router-link to="/employees/login" class="p-2 m-4 bg-blue-600 text-white rounded hover:bg-blue-700">
+             Login
+        </router-link>
+        <p class="pt-2">If you are Admin login here:</p>
+        <form @submit.prevent="login" class="space-y-4 p-4">
           <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">User</label>
             <input

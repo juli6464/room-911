@@ -22,7 +22,6 @@ Route::middleware(['auth'])->group(function () {
 
     // CRUD de empleados
     Route::get('/employees', [EmployeeController::class, 'index']);
-    // Route::post('/employees', [EmployeeController::class, 'store']);
     // Carga masiva de empleados
     Route::post('/employees/upload', [EmployeeController::class, 'importCsv'])->name('employees.import');
 

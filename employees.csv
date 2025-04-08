@@ -1,0 +1,6 @@
+internal_id,name,last_name,department_id,access_granted
+E001,John,Doe,1,1
+E002,Jane,Smith,2,0
+E003,Michael,Johnson,1,1
+E004,Linda,Brown,2,1
+E005,Robert,Williams,1,0

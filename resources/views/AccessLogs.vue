@@ -1,11 +1,11 @@
 <template>
     <div>
-      <h2>Historial de Accesos</h2>
+      <h2>Access History</h2>
       <table>
         <tr>
-          <th>Empleado</th>
-          <th>Estado</th>
-          <th>Fecha</th>
+          <th>Employee</th>
+          <th>Status</th>
+          <th>Date</th>
         </tr>
         <tr v-for="log in logs" :key="log.id">
           <td>{{ log.employee.name }}</td>

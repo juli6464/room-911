@@ -23,3 +23,5 @@ Route::post('/employees', [EmployeeController::class, 'store']);
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy']);
 Route::put('/employees/{id}', [EmployeeController::class, 'update']);
 Route::post('/import-excel-employees', [EmployeeController::class, 'import']);
+Route::post('/employee-login', [EmployeeController::class, 'loginEmployee']);
+
