@@ -44,10 +44,15 @@
             internal_id: this.internal_id,
           })
 
-          localStorage.setItem('id', response.data.employee.id)
+          const employee = response.data.employee
 
-          // Redirige al dashboard
-          this.$router.push('/dashboard')
+            if (employee.access_granted) {
+                localStorage.setItem('id', employee.id)
+                this.$router.push('/dashboard')
+            } else {
+                this.error = 'You do not have permission to access the dashboard.'
+            }
+
         } catch (error) {
           this.error = error.response?.data?.message || 'Login failed'
         }
