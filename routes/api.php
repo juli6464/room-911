@@ -26,4 +26,5 @@ Route::put('/employees/{id}', [EmployeeController::class, 'update']);
 Route::post('/import-excel-employees', [EmployeeController::class, 'import']);
 Route::post('/employee-login', [EmployeeController::class, 'loginEmployee']);
 Route::get('/access-logs/employees/{employeeId}', [AccessLogController::class, 'showByEmployee']);
+Route::get('/employees/{id}/access-history', [EmployeeController::class, 'accessHistory']);
 

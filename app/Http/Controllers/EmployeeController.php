@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\AccessLog;
 use App\Models\AdminUser;
 use App\Models\Department;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\Facades\Pdf;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -126,6 +127,11 @@ class EmployeeController extends Controller {
         return response()->json([
             'employee' => $employee
         ]);
+    }
+    public function accessHistory($id)
+    {
+        $history = AccessLog::where('employee_id', $id)->orderBy('attempt_time', 'desc')->get();
+        return response()->json($history);
     }
 
 }

@@ -139,6 +139,12 @@
                         Update
                     </button>
                     <button
+                        class="bg-yellow-500 text-white hover:bg-yellow-600 p-2 m-2 rounded-md"
+                        @click="generatePDF(employee)"
+                    >
+                        History
+                    </button>
+                    <button
                         class="bg-red-500 text-white hover:bg-red-800 p-2 m-2 rounded-md"
                         @click="deleteEmployee(employee.id)"
                     >
@@ -163,125 +169,159 @@
 
 <script>
     import axios from 'axios';
+    import jsPDF from 'jspdf';
+    import autoTable from 'jspdf-autotable';
 
     export default {
-    name: 'Employees',
-    data() {
-        return {
-        employees: [],
-        filters: {
-            internal_id: '',
-            name: '',
-            last_name: '',
-            department_id: '',
-            access_granted: '',
-            file: '',
-            start_date: '',
-            end_date: ''
-        }
-        };
-    },
-    computed: {
-        filteredEmployees() {
-        return this.employees.filter(emp => {
-            const matchId = emp.internal_id
-            .toString()
-            .includes(this.filters.internal_id);
-            const matchName = emp.name
-            .toLowerCase()
-            .includes(this.filters.name.toLowerCase());
-            const matchLast = emp.last_name
-            .toLowerCase()
-            .includes(this.filters.last_name.toLowerCase());
-            const matchDept = emp.department_id
-            .toString()
-            .includes(this.filters.department_id);
-            let matchAccess = true;
-            if (this.filters.access_granted === 'true')
-            matchAccess = emp.access_granted === true;
-            if (this.filters.access_granted === 'false')
-            matchAccess = emp.access_granted === false;
-            const matchDate = () => {
-                if (!this.filters.start_date && !this.filters.end_date) return true;
-                if (!emp.attempt_time) return false;
-
-                const attemptDate = new Date(emp.attempt_time);
-
-                const startDate = this.filters.start_date ? new Date(this.filters.start_date) : null;
-                const endDate = this.filters.end_date ? new Date(this.filters.end_date) : null;
-
-                // Sumamos un día al endDate para incluir todo el día
-                if (endDate) {
-                    endDate.setDate(endDate.getDate() + 1);
-                }
-
-                if (startDate && endDate) {
-                    return attemptDate >= startDate && attemptDate < endDate; // usamos "<" en lugar de "<="
-                } else if (startDate) {
-                    return attemptDate >= startDate;
-                } else if (endDate) {
-                    return attemptDate < endDate;
-                }
-
-                return true;
-            };
-            return matchId && matchName && matchLast && matchDept && matchAccess && matchDate();
-        });
-        }
-    },
-    async created() {
-        try {
-        const { data } = await axios.get('/employees');
-        this.employees = data;
-        } catch (error) {
-        console.error('Error al cargar empleados:', error);
-        }
-    },
-    methods: {
-        editEmployee(employee) {
-            this.$router.push(`/employees/create/${employee.id}`);
-        },
-        async deleteEmployee(id) {
-        if (confirm('¿Are you sure?')) {
-        try {
-            await axios.delete(`http://localhost:8000/api/employees/${id}`);
-            this.employees = this.employees.filter(emp => emp.id !== id);
-            alert('Employee deleted successfully');
-            } catch (error) {
-                console.error('Error to delete:', error);
-                alert('Error to delete employee');
+        name: 'Employees',
+        data() {
+            return {
+            employees: [],
+            filters: {
+                internal_id: '',
+                name: '',
+                last_name: '',
+                department_id: '',
+                access_granted: '',
+                file: '',
+                start_date: '',
+                end_date: ''
             }
-        }
+            };
         },
-        async UploadCSV() {
-        if (!this.file) {
-            alert('Please select a file first.');
-            return;
-        }
+        computed: {
+            filteredEmployees() {
+            return this.employees.filter(emp => {
+                const matchId = emp.internal_id
+                .toString()
+                .includes(this.filters.internal_id);
+                const matchName = emp.name
+                .toLowerCase()
+                .includes(this.filters.name.toLowerCase());
+                const matchLast = emp.last_name
+                .toLowerCase()
+                .includes(this.filters.last_name.toLowerCase());
+                const matchDept = emp.department_id
+                .toString()
+                .includes(this.filters.department_id);
+                let matchAccess = true;
+                if (this.filters.access_granted === 'true')
+                matchAccess = emp.access_granted === true;
+                if (this.filters.access_granted === 'false')
+                matchAccess = emp.access_granted === false;
+                const matchDate = () => {
+                    if (!this.filters.start_date && !this.filters.end_date) return true;
+                    if (!emp.attempt_time) return false;
 
-        const formData = new FormData();
-        formData.append('file', this.file);
+                    const attemptDate = new Date(emp.attempt_time);
 
-        try {
-            const response = await axios.post('http://localhost:8000/api/import-excel-employees', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+                    const startDate = this.filters.start_date ? new Date(this.filters.start_date) : null;
+                    const endDate = this.filters.end_date ? new Date(this.filters.end_date) : null;
+
+                    // Sumamos un día al endDate para incluir todo el día
+                    if (endDate) {
+                        endDate.setDate(endDate.getDate() + 1);
+                    }
+
+                    if (startDate && endDate) {
+                        return attemptDate >= startDate && attemptDate < endDate; // usamos "<" en lugar de "<="
+                    } else if (startDate) {
+                        return attemptDate >= startDate;
+                    } else if (endDate) {
+                        return attemptDate < endDate;
+                    }
+
+                    return true;
+                };
+                return matchId && matchName && matchLast && matchDept && matchAccess && matchDate();
             });
-
-            alert('CSV uploaded successfully');
-            // Puedes recargar los empleados si se han agregado nuevos
+            }
+        },
+        async created() {
+            try {
             const { data } = await axios.get('/employees');
             this.employees = data;
             } catch (error) {
-                console.error('Error uploading CSV:', error);
-                alert('Failed to upload CSV file.');
+            console.error('Error al cargar empleados:', error);
             }
         },
-        handleFileUpload(){
-            this.file = this.$refs.file.files[0];
+        methods: {
+            editEmployee(employee) {
+                this.$router.push(`/employees/create/${employee.id}`);
+            },
+            async deleteEmployee(id) {
+            if (confirm('¿Are you sure?')) {
+            try {
+                await axios.delete(`http://localhost:8000/api/employees/${id}`);
+                this.employees = this.employees.filter(emp => emp.id !== id);
+                alert('Employee deleted successfully');
+                } catch (error) {
+                    console.error('Error to delete:', error);
+                    alert('Error to delete employee');
+                }
+            }
+            },
+            async UploadCSV() {
+            if (!this.file) {
+                alert('Please select a file first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', this.file);
+
+            try {
+                const response = await axios.post('http://localhost:8000/api/import-excel-employees', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                });
+
+                alert('CSV uploaded successfully');
+                // Puedes recargar los empleados si se han agregado nuevos
+                const { data } = await axios.get('/employees');
+                this.employees = data;
+                } catch (error) {
+                    console.error('Error uploading CSV:', error);
+                    alert('Failed to upload CSV file.');
+                }
+            },
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
+            },
+            async generatePDF(employee) {
+                try {
+                    const { data: history } = await axios.get(`http://localhost:8000/api/employees/${employee.id}/access-history`);
+
+                    const doc = new jsPDF();
+                    doc.setFontSize(14);
+                    doc.text(`Access History for ${employee.name} ${employee.last_name}`, 14, 15);
+
+                    // Tabla de historial de accesos
+                    const rows = history.map(item => [item.attempt_time]);
+
+                    autoTable(doc, {
+                        head: [['Attempt Time']],
+                        body: rows,
+                        startY: 20,
+                    });
+
+                    // Tabla resumen de intentos (después del historial)
+                    autoTable(doc, {
+                        head: [['Employee Name', 'Total Attempts']],
+                        body: [[`${employee.name} ${employee.last_name}`, employee.access_attempts ?? 0]],
+                        startY: doc.lastAutoTable.finalY + 10,
+                    });
+
+                    doc.save(`Access_History_${employee.name}_${employee.last_name}.pdf`);
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    alert('Failed to generate PDF');
+                }
+            }
+
+
         }
-    }
     };
 </script>
 

@@ -30,4 +30,5 @@ Route::middleware(['auth'])->group(function () {
 
     // Simulación de acceso
     Route::post('/simulate-access', [AccessLogController::class, 'simulateAccess'])->name('simulate-access');
+
 });
