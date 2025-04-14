@@ -67,7 +67,7 @@
       },
       async saveEmployee() {
         try {
-            console.log("Datos a enviar:", this.form); // 👈 Agrega esto
+
 
             if (this.isEditMode) {
             await axios.put(`http://localhost:8000/api/employees/${this.$route.params.id}`, this.form);
