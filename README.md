@@ -1,5 +1,5 @@
 # Despliegue proyecto Laravel + Vue + Tailwind + Mysql
- - Copar archivo .env.example y  renombrarlo a .env y agregar el usuario, nombre de base de datos y contraseña
+ - Copiar archivo .env.example y  renombrarlo a .env y agregar el usuario, nombre de base de datos y contraseña
  - npm install
  - composer install
  - Crear Db en mysql room_911

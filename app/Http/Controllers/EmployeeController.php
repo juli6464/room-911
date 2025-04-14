@@ -98,11 +98,16 @@ class EmployeeController extends Controller {
         ]);
 
         $employee = Employee::where('internal_id', $request->internal_id)->first();
+        // if employe dont have permissions failed
+        $status = 'failed';
+            if ($employee && $employee->access_granted == 1) {
+                $status = 'success';
+        }
 
         // attempts
         AccessLog::create([
             'employee_id' => $employee ? $employee->id : null,
-            'status' => $employee ? 'success' : 'fail',
+            'status' => $status,
             'attempt_time' => Carbon::now(),
         ]);
 
