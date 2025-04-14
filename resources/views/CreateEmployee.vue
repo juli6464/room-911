@@ -14,9 +14,16 @@
           <label class="block text-gray-700">Last Name</label>
           <input v-model="form.last_name" type="text" class="w-full border border-gray-300 rounded px-3 py-2" required />
         </div>
-        <div class="mb-4">
+        <!-- <div class="mb-4">
           <label class="block text-gray-700">Department</label>
           <input v-model="form.department_id" type="text" class="w-full border border-gray-300 rounded px-3 py-2" required />
+        </div> -->
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-1">Department</label>
+          <select v-model="form.department_id" class="w-full border border-gray-300 rounded px-3 py-2">
+            <option :value="1">Departament 1</option>
+            <option :value="0">Departament 2</option>
+          </select>
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 mb-1">Access to room 911</label>
