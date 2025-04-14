@@ -18,6 +18,6 @@
 y/o que el empleado no esté registrado en BD.
  - En el botón de history del empleado se puede descargar el PDF del numero de intentos, con fechas de intento y el nombre del empleado.
  - Para crear un Usuario admin en la sección de Login se crea con usuario que sea único y que tenga por lo menos 6 caracteres.
- - Se puede importar por CSV el listado de empleados (Para prueba importa employees.csv que está en el repositorio).
+ - Se puede importar por CSV el listado de empleados (Para prueba importa employees.csv que está en el repositorio, tener en cuenta de cambiar el nombre del CSV para mas improtaciones).
  - La imagen del diagrama E-R puedes buscarlo en el repositorio como Diagrama-entidad-relacion.PNG.
  

@@ -288,6 +288,7 @@
             },
             handleFileUpload(){
                 this.file = this.$refs.file.files[0];
+                // this.$refs.file.value = '';
             },
             async generatePDF(employee) {
                 try {

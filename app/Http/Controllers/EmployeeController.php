@@ -82,13 +82,12 @@ class EmployeeController extends Controller {
     }
     public function import(Request $request)
     {
-        $request->validate([
-            'file' => 'required|file|mimes:csv,xlsx',
-        ]);
+        if ($request->hasFile('file')) {
+            Excel::import(new EmployeesImport, $request->file('file'));
+            return response()->json(['success' => true, 'message' => 'Archivo importado correctamente']);
+        }
 
-        Excel::import(new EmployeesImport, $request->file('file'));
-
-        return response()->json(['message' => 'Import successful']);
+        return response()->json(['error' => 'No file uploaded'], 400);
     }
 
     public function loginEmployee(Request $request)
