@@ -26,7 +26,7 @@
           </select>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-1">Access to room 911</label>
+          <label class="block text-gray-700 mb-1">Access to Admin Panel</label>
           <select v-model="form.access_granted" class="w-full border border-gray-300 rounded px-3 py-2">
             <option :value="1">Yes</option>
             <option :value="0">No</option>
